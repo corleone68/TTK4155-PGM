@@ -1,6 +1,6 @@
 /*
  */
-#define F_CPU 16000000UL
+#define F_CPU 4915200UL
 #define BAUD 9600
 //#define BRC 31
 #include <avr/io.h>

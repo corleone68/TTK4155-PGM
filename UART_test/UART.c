@@ -2,6 +2,7 @@
 #include "UART.h"
 #include <util/setbaud.h>
 #include <stdio.h>
+
 void initUSART(void)
 {
 /* Set baud rate */

@@ -8,7 +8,7 @@
 #endif // BAUD
 
 #ifndef F_CPU
-    #define F_CPU 16000000UL
+    #define F_CPU 4915200UL
 #endif // F_CPU
 
 #ifndef USART_h
