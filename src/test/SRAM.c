@@ -1,9 +1,9 @@
-#ifndef  F_CPU
+#ifndef 
     #define F_CPU 4915200
 #endif
-#define ADC_ADDRESS  0x1400
-#define SRAM_ADDRESS  0x1800
-#define OLED_ADDRESS  0x1000
+#define ADC_ADDRESS = 0x1400
+#define SRAM_ADDRESS = 0x1800
+#define OLED_ADDRESS = 0x1000
 #include <avr/io.h>
 #include "SRAM.h"
 #include <stdlib.h>
@@ -18,12 +18,12 @@ uint8_t readSRAM(uint16_t address)
 	volatile char *ext_sram = (char *) SRAM_ADDRESS;
 		uint8_t value = ext_sram[address];
 		return value;
-
+	
 }
 
 void SRAM_test(void)
 {
-	/*volatile char *ext_ram = (char *) SRAM_ADDRESS; // Start address for the SRAM
+	volatile char *ext_ram = (char *) SRAM_DATA_ADDRESS; // Start address for the SRAM
 	uint16_t ext_ram_size = 0x800;
 	uint16_t write_errors = 0;
 	uint16_t retrieval_errors = 0;
@@ -54,5 +54,5 @@ void SRAM_test(void)
 		}
 	}
 	//printf("SRAM test completed with \n%4d errors in write phase and \n%4d errors in retrieval phase\n\n", write_errors, retrieval_errors);
-*/
+
 }
