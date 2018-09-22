@@ -9,7 +9,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+void initSRAM(void)
+{
+   MCUCR = (1 << SRE); 
+}
 
 
 

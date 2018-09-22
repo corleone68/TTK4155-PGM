@@ -2,9 +2,9 @@
  #define BAUD 9600
 
 #include <avr/io.h>
-//#include "ADC.h"
+#include "ADC.h"
 #include "UART.h"
-//#include "SRAM.h"
+#include "SRAM.h"
 #include <util/setbaud.h>
 #include <stdio.h>
 #include <util/delay.h>
@@ -16,14 +16,14 @@ int main(void)
 
     while(1){
 
-        //analogRead(joy_x);
-       //uint8_t value= readSRAM(ADC_ADDRESS);
-        //transmitByte('8');
+        analogRead(joy_x);
+       uint8_t value= readSRAM(ADC_ADDRESS);
+        transmitByte(value);
 
-        transmitByte('8');
-		printf("Hello this is a ..");
+        //transmitByte('8');
+		//printf("Hello this is a ..");
 		//uart_msg("8");
-		_delay_ms(1000);
+		//_delay_ms(1000);
     }
 
 
