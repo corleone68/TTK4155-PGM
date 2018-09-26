@@ -6,11 +6,11 @@
 #include <util/delay.h>
 #include "ADC.h"
 
-uint8_t init_ADC(void)
+void init_ADC(void)
 {
 
     DDRE &= ~(1 << PE0); // set the interrupt
-    return 0;
+    
 }
 
 
@@ -32,11 +32,11 @@ uint8_t analogRead(Device device)
                   *ext_adc = 0b00000111;
                   break;
           default:
-                  return(0);
+                  break;
     }
      loop_until_bit_is_clear(PINE,PE0); //When the interrupt is low we can read the data               }
 
-    _delay_us(100);
+    _delay_us(40);
     return *ext_adc;
 }
 

@@ -1,5 +1,4 @@
-#ifndef ADC_H
-#define ADC_H
+#include <avr/io.h>
 
 typedef enum{
              joy_x = 1,
@@ -7,11 +6,11 @@ typedef enum{
              slider_r = 3,
              slider_l = 4,
             } Device;
-uint8_t init_ADC(void);
+void init_ADC(void);
 uint8_t analogRead(Device device);
 
 
 
-#endif
+
 
 

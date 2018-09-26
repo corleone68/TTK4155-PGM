@@ -2,7 +2,7 @@
 #define SRAM_ADDRESS  0x1800
 #define OLED_ADDRESS  0x1000
 #include <avr/io.h>
-
+#include "UART.h"
 
 void initSRAM(void);
 void SRAM_test(void);

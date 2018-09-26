@@ -11,14 +11,16 @@
 int main(void)
 {
     initUSART();
-    //init_ADC();
-    // Insert code
-
+    init_ADC();
+    initSRAM();
+    SRAM_test;
     while(1){
 
-        analogRead(joy_x);
-       uint8_t value= readSRAM(ADC_ADDRESS);
-        transmitByte(value);
+        uint8_t value = analogRead(joy_x);
+        //transmitByte(value);
+
+        printf("ADC value: %d", value);
+       
 
         //transmitByte('8');
 		//printf("Hello this is a ..");
