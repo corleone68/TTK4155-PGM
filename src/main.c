@@ -5,6 +5,7 @@
 #include "ADC.h"
 #include "UART.h"
 #include "SRAM.h"
+#include "joystick.h"
 #include <util/setbaud.h>
 #include <stdio.h>
 #include <util/delay.h>
@@ -20,7 +21,7 @@ int main(void)
         //transmitByte(value);
 
         printf("ADC value: %d", value);
-       
+        readJoystick();
 
         //transmitByte('8');
 		//printf("Hello this is a ..");
