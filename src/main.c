@@ -15,13 +15,16 @@ int main(void)
     init_ADC();
     initSRAM();
     SRAM_test;
+  
+    Position val;
     while(1){
 
         uint8_t value = analogRead(joy_x);
         //transmitByte(value);
-
+        
         printf("ADC value: %d", value);
-        readJoystick();
+        val = readJoystick();
+        printf("x value is %d\n y value is %d\n", val -> x, val -> y);
 
         //transmitByte('8');
 		//printf("Hello this is a ..");

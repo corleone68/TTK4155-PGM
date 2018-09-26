@@ -12,9 +12,9 @@ int map(int x, int in_min, int in_max, int out_min, int out_max)
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-Position Joy_pos;
-Position Slid_pos;
-Position percentage;
+struct pos Joy_pos;
+struct pos Slid_pos;
+struct pos percentage;
 
 void initJoystick(void)
 {
@@ -23,7 +23,7 @@ void initJoystick(void)
 	PORTB &= (1 << PB2);
 }
 
-Position readJoystick(void)
+struct pos readJoystick(void)
 {
     Joy_pos.x = analogRead(joy_x);
     _delay_ms(10);
@@ -31,9 +31,9 @@ Position readJoystick(void)
     return Joy_pos;
 }
 
-Position joyPosition(void)
+struct pos joyPosition(void)
 {
-    Position current_pos = readJoystick();
+    struct pos current_pos = readJoystick();
     percentage.x = map(current_pos.x,0,255,-100,100);
     percentage.y = map(current_pos.y,0,255,-100,100);
     return percentage;
@@ -41,7 +41,7 @@ Position joyPosition(void)
 
 Direction joyDirection(void)
 {
-    Position current_pos = joyPosition();
+    struct pos current_pos = joyPosition();
     
     if((abs(current_pos.x) < 20 )&& (abs(current_pos.y) < 20))
        {
@@ -77,5 +77,3 @@ uint8_t readButton(void)
     
 	return (PINB & (1 << PB2)) == 0;
 }
-
-

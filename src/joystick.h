@@ -7,11 +7,10 @@ typedef enum{
             RIGHT = 4,
             LEFT = 5,
             }Direction;
-
-struct  pos{
+ typedef struct  pos{
             int8_t x;
             int8_t y;
-            };
+            }Position;
 void initJoystick(void); 
 struct pos readJoystick(void);
 struct pos joyPosition(void);
