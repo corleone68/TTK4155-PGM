@@ -74,8 +74,12 @@ Direction joyDirection(void)
 
 uint8_t readButton(void)
 {
-    
-	return (PINB & (1 << PB2)) == 0;
+        if ((PINB & (1 << PB2)) == 0)
+            {  
+                return(1);
+            }
+	    else 
+            return 0;
 }
 
 

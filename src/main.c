@@ -24,7 +24,7 @@ int main(void)
         
         printf("ADC value: %d", value);
         val = readJoystick();
-        printf("x value is %d\n y value is %d\n", val -> x, val -> y);
+        printf("x value is %d\n y value is %d\n", val.x, val.y);
 
         //transmitByte('8');
 		//printf("Hello this is a ..");
