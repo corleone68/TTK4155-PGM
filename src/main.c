@@ -19,10 +19,10 @@ int main(void)
     Position val;
     while(1){
 
-        uint8_t value = analogRead(joy_x);
+        //uint8_t value = analogRead(joy_x);
         //transmitByte(value);
         
-        printf("ADC value: %d", value);
+       // printf("ADC value: %d", value);
         val = readJoystick();
         printf("x value is %d\n y value is %d\n", val.x, val.y);
 
