@@ -8,7 +8,7 @@ void initSPI(void){
     
     DDRB  |= (1 << DDB5); // output on MOSI
     DDRB  |= (1 << DDB7); //output on SCK
-    PORTB |= (1 << DDB6); // pullup on MISO
+    DDRB  |= (1 << DDB6); //output on MISO
 
     SPCR |= (1 << SPR0);  // clkdiv 8
     SPSR |= (1 << SPI2X); //clkdiv 8
@@ -18,8 +18,14 @@ void initSPI(void){
     SPCR |= (1 << SPE); //enable
 }
 
-void SPI_MasterTransmit(uint8_t data){
+void transmitSPI(uint8_t data){
 
     SPDR = data; // starts sending
     loop_until_bit_is_set(SPSR,SPIF); //waits until done
 }
+
+uint8_t receiveSPI(void){
+ loop_until_bit_is_clear(SPSR, SPIF); //wait until transfer is completed 
+    return SPDR; //return data register
+}
+

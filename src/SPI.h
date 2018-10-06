@@ -4,4 +4,5 @@
 #define SLAVE_DESELECT PORTB |= (1 << PB4)
 
 void initSPI(void);
-void SPI_MasterTransmit(uint8_t data);
+void transmitSPI(uint8_t data);
+uint8_t receiveSPI(void);
