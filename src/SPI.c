@@ -25,6 +25,7 @@ void transmitSPI(uint8_t data){
 }
 
 uint8_t receiveSPI(void){
+ transmitSPI(0);
  loop_until_bit_is_clear(SPSR, SPIF); //wait until transfer is completed 
     return SPDR; //return data register
 }
