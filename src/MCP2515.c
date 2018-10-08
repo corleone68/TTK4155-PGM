@@ -1,3 +1,5 @@
+#include "MCP2515.h"
+
 void mcp2515_init(uint8_t mode)
 {
     uint8_t value;
