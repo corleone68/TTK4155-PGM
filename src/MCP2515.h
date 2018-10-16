@@ -155,6 +155,15 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_WAKIF		0x40
 #define MCP_MERRF		0x80
 
+//CAN control
+#define MCP_TXB0CTRL 0x30
+#define MCP_TXB0SIDH 0x31
+#define MCP_TXB0SIDL 0x32
+#define MCP_TXB0DLC  0x35
+#define MCP_TXB0D0   0x36
+#define TXREQ 3
+#define TXERR 4
+#define MLOA  5
 void mcp2515_init(uint8_t mode);
 uint8_t mcp2515_read(uint8_t address);
 void mcp2515_reset(void);
