@@ -35,7 +35,22 @@ int can_error()
 {
     if((MCP_TXB0CTRL & (1 << TXERR)) return 1;
     if((MCP_TXB0CTRL & (1 << MLOA))  return 2;
-    else 
-        return 0;
+    
+    return 0;
 }
 
+
+Can_message can_data_receive()
+{
+   Can_message msg;
+   
+    msg.id = (mcp2515_read(MCP_RXBOSIDH) << 3 | mcp2515_read(MCP_RXB0SIDL) >> 5);
+    msg.length = mcp2515_read(MCP_RXB0DLC) & 0b00001111; 
+    uint8_t i;
+    for (i=0; i < msg.length; i++)
+    {
+        msg.data[i] = mcp2515_read(MCP_RXB0D0 + i);
+    }
+    return msg;
+}
+    

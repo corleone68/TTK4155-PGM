@@ -61,8 +61,7 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_TXB0CTRL	0x30
 #define MCP_TXB1CTRL	0x40
 #define MCP_TXB2CTRL	0x50
-#define MCP_RXB0CTRL	0x60
-#define MCP_RXB0SIDH	0x61
+
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
 
@@ -164,6 +163,11 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define TXREQ 3
 #define TXERR 4
 #define MLOA  5
+#define MCP_RXB0CTRL	0x60
+#define MCP_RXB0SIDH	0x61
+#define MCP_RXB0SIDL    0x62
+#define MCP_RXB0DLC     0x65
+#define MCP_RXB0D0      0x66
 void mcp2515_init(uint8_t mode);
 uint8_t mcp2515_read(uint8_t address);
 void mcp2515_reset(void);
@@ -171,6 +175,6 @@ void mcp2515_write(uint8_t address, uint8_t data);
 void mcp2515_request_to_send(uint8_t mcp_rts_TXn);
 void mcp2515_bit_modify(uint8_t address, uint8_t mask, uint8_t data);
 uint8_t mcp2515_read_status(void);
-
+Can_message can_data_receive();
 
 #endif
