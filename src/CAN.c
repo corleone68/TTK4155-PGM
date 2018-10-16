@@ -3,7 +3,12 @@
 #include "MCP2515.h"
 #include "CAN.h"
 
-
+void can_init(uint8_t mode)
+{
+    mcp2515_init(mode);
+    mcp2515_bit_modify(MCP_CANINTE, RX0IE, RX0IE);
+    MCP_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
+}
 
 
 
@@ -52,5 +57,10 @@ Can_message can_data_receive()
         msg.data[i] = mcp2515_read(MCP_RXB0D0 + i);
     }
     return msg;
+}
+
+void can_int_vector()
+{
+    
 }
     

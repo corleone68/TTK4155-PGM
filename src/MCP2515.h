@@ -168,6 +168,8 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB0SIDL    0x62
 #define MCP_RXB0DLC     0x65
 #define MCP_RXB0D0      0x66
+#define MCP_NOFILTER    0X60
+#define RX0IE           0x01
 void mcp2515_init(uint8_t mode);
 uint8_t mcp2515_read(uint8_t address);
 void mcp2515_reset(void);
