@@ -2,12 +2,16 @@
 #include "SPI.h"
 #include "MCP2515.h"
 #include "CAN.h"
+#include <avr/interrupt.h>
+
 
 void can_init(uint8_t mode)
 {
     mcp2515_init(mode);
     mcp2515_bit_modify(MCP_CANINTE, RX0IE, RX0IE);
     MCP_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
+
+    
 }
 
 
@@ -59,8 +63,30 @@ Can_message can_data_receive()
     return msg;
 }
 
-void can_int_vector()
+void can_int_clear()
 {
-    
+    mcp2515_bit_modify(MCP_CANINF,0x01,0x00);
 }
+
+Can_message can_send()
+{
+    if(flag == 1) 
+    {
+        can_data_receive();
+        flag = 0;
+    }
+}
+
+
+ISR(INT0_vect)
+{
+    uint8_t int_stat = mcp2515_read(MCP_CANINTF);
+    if(int_stat & MCP_RX0IF)
+    {
+        flag = 1;
+        can_int_clear();
+    }
+}
+
+
     

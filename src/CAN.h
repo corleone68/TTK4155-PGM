@@ -13,5 +13,5 @@ typedef struct can_message{
 void can_message_send(Can_message* msg);
 int can_transmit_complete();
 int can_error();
-
+int flag = 0;
 #endif
