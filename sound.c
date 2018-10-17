@@ -32,11 +32,10 @@ Sound enemyDestroyed;
 
 
 Sound* getSound(int soundId) {
+    if (soundId == 0) return &jump;
     if (soundId == 1) return &zap;
     if (soundId == 2) return &gameOver;
     if (soundId == 3) return &enemyDestroyed;
-
-    return &silent;
 }
 
 void initializeSounds() {
