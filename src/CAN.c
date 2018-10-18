@@ -9,7 +9,7 @@ void can_init(uint8_t mode)
 {
     mcp2515_init(mode);
     mcp2515_bit_modify(MCP_CANINTE, RX0IE, RX0IE);
-    MCP_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
+    mcp2515_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
 
     MCUCR |= (0 << ISC01) | (0 << ISC00);
     GICR |= (1 << INT0);
@@ -26,7 +26,7 @@ void can_message_send(Can_message* msg)
    mcp2515_write(MCP_TXB0SIDH, (msg -> id) >> 3); 
    mcp2515_write(MCP_TXB0SIDL, (msg -> id) << 5);
 
-   mcp2515_write(TXB0DLC, msg -> length); 
+   mcp2515_write(MCP_TXB0DLC, msg -> length); 
    
    uint8_t i;
    for(i=0; i < (msg -> length); i++)
@@ -40,15 +40,15 @@ void can_message_send(Can_message* msg)
 
 int can_transmit_complete()
 {
-    if((MCP_TXB0CTRL & (1 << TXREQ)) return 0;
+    if((MCP_TXB0CTRL & (1 << TXREQ))) return 0;
     else 
         return 1;
 }
 
 int can_error()
 {
-    if((MCP_TXB0CTRL & (1 << TXERR)) return 1;
-    if((MCP_TXB0CTRL & (1 << MLOA))  return 2;
+    if((MCP_TXB0CTRL & (1 << TXERR))) return 1;
+    if((MCP_TXB0CTRL & (1 << MLOA)))  return 2;
     
     return 0;
 }
@@ -58,7 +58,7 @@ Can_message can_data_receive()
 {
    Can_message msg;
    
-    msg.id = (mcp2515_read(MCP_RXBOSIDH) << 3 | mcp2515_read(MCP_RXB0SIDL) >> 5);
+    msg.id = (mcp2515_read(MCP_RXB0SIDH) << 3 | mcp2515_read(MCP_RXB0SIDL) >> 5);
     msg.length = mcp2515_read(MCP_RXB0DLC) & 0b00001111; 
     uint8_t i;
     for (i=0; i < msg.length; i++)
@@ -70,7 +70,7 @@ Can_message can_data_receive()
 
 void can_int_clear()
 {
-    mcp2515_bit_modify(MCP_CANINF,0x01,0x00);
+    mcp2515_bit_modify(MCP_CANINTF,0x01,0x00);
 }
 
 Can_message can_receive()

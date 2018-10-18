@@ -170,6 +170,7 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_RXB0D0      0x66
 #define MCP_NOFILTER    0X60
 #define RX0IE           0x01
+
 void mcp2515_init(uint8_t mode);
 uint8_t mcp2515_read(uint8_t address);
 void mcp2515_reset(void);
@@ -177,6 +178,6 @@ void mcp2515_write(uint8_t address, uint8_t data);
 void mcp2515_request_to_send(uint8_t mcp_rts_TXn);
 void mcp2515_bit_modify(uint8_t address, uint8_t mask, uint8_t data);
 uint8_t mcp2515_read_status(void);
-Can_message can_data_receive();
+
 
 #endif
