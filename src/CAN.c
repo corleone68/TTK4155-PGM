@@ -11,6 +11,9 @@ void can_init(uint8_t mode)
     mcp2515_bit_modify(MCP_CANINTE, RX0IE, RX0IE);
     MCP_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
 
+    MCUCR |= (0 << ISC01) | (0 << ISC00);
+    GICR |= (1 << INT0);
+
     
 }
 
@@ -19,6 +22,7 @@ void can_init(uint8_t mode)
 
 void can_message_send(Can_message* msg)
 {  // Standard mode
+   if(can_transmit_complete()){
    mcp2515_write(MCP_TXB0SIDH, (msg -> id) >> 3); 
    mcp2515_write(MCP_TXB0SIDL, (msg -> id) << 5);
 
@@ -30,6 +34,7 @@ void can_message_send(Can_message* msg)
         mcp2515_write(MCP_TXB0D0 + i, msg -> data[i]);
     } 
     mcp2515_request_to_send(MCP_RTS_TX0);
+    }
    
 }
 
@@ -68,18 +73,19 @@ void can_int_clear()
     mcp2515_bit_modify(MCP_CANINF,0x01,0x00);
 }
 
-Can_message can_send()
-{
+Can_message can_receive()
+{   Can_message message;
     if(flag == 1) 
     {
-        can_data_receive();
+        message = can_data_receive();
         flag = 0;
+        return message;
     }
 }
 
 
 ISR(INT0_vect)
-{
+{   
     uint8_t int_stat = mcp2515_read(MCP_CANINTF);
     if(int_stat & MCP_RX0IF)
     {
