@@ -1,12 +1,16 @@
-#include "MCP2515.h"
 
-void mcp2515_init(uint8_t mode)
+
+#include "MCP2515.h"
+#include "USART.h"
+
+void mcp2515_init(int mode)
 {
     uint8_t value;
     uint8_t mask = 0b011100000;
     initSPI();
     mcp2515_reset();
     mcp2515_bit_modify(MCP_CANCTRL,mask,mode); //ex. mcp2515_bit_modify(MCP_CANCTRL,mask, MODE_LOOPBACK);
+	printf("mcp init succesfull");
     
 }
 
@@ -17,7 +21,7 @@ uint8_t mcp2515_read(uint8_t address)
     SLAVE_SELECT;
     transmitSPI(MCP_READ);
     transmitSPI(address);
-    result = receiveSPI();
+     result = receiveSPI(0);
     SLAVE_DESELECT;
     return result;
 }
@@ -61,9 +65,11 @@ uint8_t mcp2515_read_status(void)
     uint8_t result;
     SLAVE_SELECT;
     transmitSPI(MCP_READ_STATUS);
-    result = receiveSPI();
+	result = receiveSPI(0);
     SLAVE_DESELECT;
     return result;
     
 }
+
+
 

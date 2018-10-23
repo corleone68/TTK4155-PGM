@@ -1,3 +1,6 @@
+
+
+
 #ifndef __MCP2515_H
 #define __MCP2515_H
 #include <avr/io.h>
@@ -15,6 +18,8 @@ Copyright 2003 Kimberly Otten Software Consulting
 */
 
 // Define MCP2515 register addresses
+
+
 
 #define MCP_RXF0SIDH	0x00
 #define MCP_RXF0SIDL	0x01
@@ -171,7 +176,7 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_NOFILTER    0X60
 #define RX0IE           0x01
 
-void mcp2515_init(uint8_t mode);
+void mcp2515_init(int mode);
 uint8_t mcp2515_read(uint8_t address);
 void mcp2515_reset(void);
 void mcp2515_write(uint8_t address, uint8_t data);
@@ -181,3 +186,7 @@ uint8_t mcp2515_read_status(void);
 
 
 #endif
+
+
+
+

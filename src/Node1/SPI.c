@@ -1,4 +1,8 @@
+
+
+
 #include "SPI.h"
+#include "USART.h"
 #include <avr/io.h>
 
 void initSPI(void){
@@ -16,17 +20,22 @@ void initSPI(void){
     SPCR |= (1 << CPHA);  //device set up on the leading edge
     
     SPCR |= (1 << SPE); //enable
+	printf("SPI init succesfull");
 }
 
 void transmitSPI(uint8_t data){
 
     SPDR = data; // starts sending
-    loop_until_bit_is_set(SPSR,SPIF); //waits until done
+    loop_until_bit_is_set(SPSR,SPIF);
+	 //waits until done
 }
 
-uint8_t receiveSPI(void){
- transmitSPI(0);
- loop_until_bit_is_clear(SPSR, SPIF); //wait until transfer is completed 
-    return SPDR; //return data register
+uint8_t receiveSPI(uint8_t data){
+    SPDR = data; // starts sending
+    loop_until_bit_is_set(SPSR,SPIF);
+    return SPDR; //waits until done //return data register
 }
+
+
+
 
