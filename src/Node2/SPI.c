@@ -7,19 +7,15 @@
 
 void initSPI(void){
 
-    DDRB |= (1 << DDB4); // set SS output
-    SLAVE_DESELECT;    // start not selected
+    DDR_SPI |= (1 << SS); // set SS output
     
-    DDRB  |= (1 << DDB5); // output on MOSI
-    DDRB  |= (1 << DDB7); //output on SCK
-    PORTB  |= (1 << DDB6); //pullup on MISO
-
-    SPCR |= (1 << SPR0);  // clkdiv 8
-    SPSR |= (1 << SPI2X); //clkdiv 8
+    DDR_SPI  |= (1 << MOSI); // output on MOSI
+    DDR_SPI  |= (1 << SCK); //output on SCK
+    DDR_SPI  &= ~(1 << MISO); //input on MISO
+    DDR_SPI |= (1 << CS);
+    SPCR |= (1 << SPR0);  // clkdiv 16
     SPCR |= (1 << MSTR);  // clockmaster
     SPCR |= (1 << CPHA);  //device set up on the leading edge
-    
-    SPCR |= (1 << SPE); //enable
 	printf("SPI init succesfull");
 }
 
