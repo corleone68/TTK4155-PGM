@@ -4,7 +4,7 @@
 #ifndef __MCP2515_H
 #define __MCP2515_H
 #include <avr/io.h>
-#include "SPI.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\Node 2\SPI.h"
 /*
 mcp2515.h
 

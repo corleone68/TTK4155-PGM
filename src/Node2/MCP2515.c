@@ -1,16 +1,19 @@
 
 
-#include "MCP2515.h"
 #include "USART.h"
+#include "SPI.h"
+#include "MCP2515.h"
 
 void mcp2515_init(int mode)
 {
-    uint8_t value;
-    uint8_t mask = 0b011100000;
+    uint8_t mask = 0b111000000;
     initSPI();
     mcp2515_reset();
-    mcp2515_bit_modify(MCP_CANCTRL,mask,mode); //ex. mcp2515_bit_modify(MCP_CANCTRL,mask, MODE_LOOPBACK);
-	printf("mcp init succesfull");
+	mcp2515_bit_modify(MCP_RXB0CTRL, 0x60, 0xFF); // Turns masks/filters off for RX0
+	mcp2515_bit_modify(MCP_RXB1CTRL, 0x60, 0xFF);
+    mcp2515_bit_modify(MCP_CANCTRL,mask, mode); //ex. mcp2515_bit_modify(MCP_CANCTRL,mask, MODE_LOOPBACK);
+    int value = mcp2515_read(MCP_CANCTRL);
+	//printf("mcp init succesfull node  2 %d \n",value);
     
 }
 
@@ -21,7 +24,8 @@ uint8_t mcp2515_read(uint8_t address)
     SLAVE_SELECT;
     transmitSPI(MCP_READ);
     transmitSPI(address);
-     result = receiveSPI(0);
+    result = receiveSPI(0x00);
+	char data = SPDR;
     SLAVE_DESELECT;
     return result;
 }
@@ -65,7 +69,7 @@ uint8_t mcp2515_read_status(void)
     uint8_t result;
     SLAVE_SELECT;
     transmitSPI(MCP_READ_STATUS);
-	result = receiveSPI(0);
+	result = receiveSPI(1);
     SLAVE_DESELECT;
     return result;
     
