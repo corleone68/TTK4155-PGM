@@ -1,16 +1,18 @@
 
 
-#include "MCP2515.h"
-#include "USART.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\MCP2515.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\USART.h"
 
 void mcp2515_init(int mode)
 {
-    uint8_t value;
-    uint8_t mask = 0b011100000;
+    //uint8_t value;
+    uint8_t mask = 0b111000000;
     initSPI();
     mcp2515_reset();
+	mcp2515_bit_modify(MCP_RXB0CTRL, 0x60, 0xFF); // Turns masks/filters off for RX0
+	mcp2515_bit_modify(MCP_RXB1CTRL, 0x60, 0xFF);
     mcp2515_bit_modify(MCP_CANCTRL,mask,mode); //ex. mcp2515_bit_modify(MCP_CANCTRL,mask, MODE_LOOPBACK);
-	printf("mcp init succesfull");
+	printf("mcp init succesfull node 1 \n");
     
 }
 
@@ -21,7 +23,8 @@ uint8_t mcp2515_read(uint8_t address)
     SLAVE_SELECT;
     transmitSPI(MCP_READ);
     transmitSPI(address);
-     result = receiveSPI(0);
+    result = receiveSPI(0x00);
+	//char data = SPDR;
     SLAVE_DESELECT;
     return result;
 }

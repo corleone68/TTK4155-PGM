@@ -2,10 +2,10 @@
 
 
 #include <avr/io.h>
-#include "SPI.h"
-#include "MCP2515.h"
-#include "CAN.h"
-#include "USART.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\SPI.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\MCP2515.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\CAN.h"
+#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\USART.h"
 #include <avr/interrupt.h>
 
 
@@ -15,9 +15,9 @@ void can_init(uint8_t mode)
     mcp2515_bit_modify(MCP_CANINTE, RX0IE, RX0IE);
     mcp2515_bit_modify(MCP_RXB0CTRL,MCP_NOFILTER, MCP_NOFILTER);
 
-    MCUCR |= (0 << ISC01) | (0 << ISC00);
-    GICR |= (1 << INT0);
-	printf("can init succesfull");
+    //MCUCR |= (0 << ISC01) | (0 << ISC00);
+    //GICR |= (1 << INT0);
+	printf("Can init succesfull \n");
     
 }
 
@@ -88,7 +88,7 @@ Can_message can_receive()
     }
 }
 
-
+/*
 ISR(INT0_vect)
 {   
     uint8_t int_stat = mcp2515_read(MCP_CANINTF);
@@ -99,7 +99,7 @@ ISR(INT0_vect)
     }
 }
 
-
+*/
     
 
 
