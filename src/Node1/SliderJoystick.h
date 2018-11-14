@@ -34,8 +34,11 @@ struct JoystickOutput {
 
 void JoystickRead(struct JoystickOutput *Out);
 void JoystickCalibrate(void);
+uint8_t read_left_Button(void);
+uint8_t read_right_Button(void);
 
 uint8_t SliderRead(uint8_t Choice);
+
 
 
 #endif /* JOYSTICK_H_ */

@@ -27,6 +27,7 @@ typedef struct menu_item_info {
 	menu_item_info_t *parent;
 	menu_item_info_t *child[7];
 	int child_num;
+	uint8_t menu_flag;
 };
 
 
@@ -34,12 +35,17 @@ void MENU_init( void );
 
 void MENU_print_menu();
 
+void MENU_end_game();
+
+void MENU_game(int);
+
 void MENU_select_item();
 
-void MENU_navigate();
+void MENU_navigate(uint8_t, uint8_t*, uint8_t*, uint16_t*, int);
 
 void MENU_highlight_item( void );
 
+void menu_val_init();
 
 
 #endif /* MENU_H_ */

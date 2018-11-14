@@ -1,10 +1,3 @@
-/*
- * oled.h
- *
- * Created: 16.09.2014 14:21:30
- *  Author: milorads
- */ 
-
 
 #ifndef OLED_H_
 #define OLED_H_
@@ -22,6 +15,7 @@ void OledClearDisplay(void);
 void OledGoto(uint8_t row,uint8_t column);
 void OledPrintCharacter(char character);
 void OledPrintString(char *string);
+void Oledprintarrow(void);
 
 typedef struct {
 	int row, col;

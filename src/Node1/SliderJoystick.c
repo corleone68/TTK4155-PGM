@@ -1,10 +1,12 @@
 
-#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\SliderJoystick.h"
-#include "C:\Users\Peter\Documents\Atmel Studio\6.2\GccApplication1\Adc.h"
+#include "SliderJoystick.h"
+#include "Adc.h"
 #include "stdlib.h"
 #define F_CPU 4915200
 #include "util/delay.h"
 #define TRESHOLD 12
+
+#define bit_is_set(sfr, bit)  ((_SFR_BYTE(sfr)& _BV(bit)))
 
 
 void JoystickCalibrate(void)
@@ -65,8 +67,26 @@ uint8_t SliderRead(uint8_t Choice)
 	_delay_us(40);
 	//while(ADC_DONE_PIN & ADC_DONE);
 	
-
-	
 	return	ADC_read();
 
 }
+
+uint8_t read_left_Button(void)
+	{
+		if (bit_is_clear(PINB, PB2))
+		{
+			return(1);
+		}
+		else
+		return 0;
+	}
+	
+uint8_t read_right_Button(void)
+	{
+		if (bit_is_clear(PINB, PB3))
+		{
+			return(1);
+		}
+		else
+		return 0;
+	}

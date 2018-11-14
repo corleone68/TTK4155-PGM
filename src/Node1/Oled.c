@@ -110,7 +110,7 @@ void OledPrintString(char *string){
 }
 
 
-void OLED_print_arrow(){
+void Oledprintarrow(){
 	OledWriteData(0x3E);
 	OledWriteData(0x1C);
 	OledWriteData(0x08);
