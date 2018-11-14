@@ -5,18 +5,7 @@
 static uint16_t filter_limit = 100;
 
 
-//***************************************************************
-//	Set new filter limit										*
-//***************************************************************
-void ir_set_limit(uint16_t val){
-	filter_limit = val;
-}
-
-
-//***************************************************************
-//	Check if IR is obstructed									*
-//***************************************************************
-uint8_t ir_obstructed(void){
+uint8_t ir_get(void){
 	#define FILT_ORD 4
 	
 	// Check if value is below threshold

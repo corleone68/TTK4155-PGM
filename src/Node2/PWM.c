@@ -1,6 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "C:\Users\Peter\Documents\Atmel Studio\6.2\Node 2\PWM.h"
+#include "PWM.h"
 
 
 //***************************************************************
@@ -10,15 +10,12 @@ void servo_init(void){
 	
 	// Set data direction to output
 	DDRB |= (1<<PB6);
-	DDRB |= (1<<PE4);
 	
 	// Set top value for Fast-PWM counter
 	ICR1 = 40000;
 	
 	// Set trigger value for Fast-PWM counter
 	OCR1B = 3000;
-	OCR3B = 3000;
-	
 	
 	// Set timer for Fast-PWM
 	TCCR1A = (1<<COM1B1)|(1<<WGM11)|(1<<COM3B1);
