@@ -8,26 +8,34 @@ void motor_init(){
 	
 	// Enable motor
 	DDRH |= (1 << PH4);
-	PORTH |= (1 << PH4);
 	
+	DDRH |= (1 << PH5); // set encoder enable to out
+	
+	 // set encoder read to in
 	
 	// Set direction pin to output
 	DDRH |= (1 << PH1);
 	
 	// Enable control for output enable. Remember: active low - !OE
-	DDRB |= (1 << PB5);
+	DDRH |= (1 << PH5); //PB5
 	
 	// Enable control for selection pin: SEL
 	DDRH |= (1 << PH3);
 	
 	// Enable control for Reset pin: RST
 	DDRH |= (1 << PH6);
+	PORTH |= (1 << PH4);
+	
+	PORTH |= (1 << PH6);
 
 	// Reset encoder
-	motor_reset_encoder();
+	//motor_reset_encoder();
 	
 	// Set data bits to input:
-	DDRK = 0x00;
+	//DDRK = 0x00;
+	//Set !OE low to enable output of encoder.
+	PORTH &= ~(1 << PH5);
+	
 	
 }
 
@@ -64,10 +72,8 @@ void motor_reset_encoder() {
 	PORTH |= (1 << PH6); // Finish reset
 }
 
-int16_t motor_encoder_read(void){
+uint16_t motor_encoder_read(void){
 
-	//Set !OE low to enable output of encoder.
-	PORTH &= ~(1 << PH5);
 	
 	//Set SEL low to get high byte
 	PORTH &= ~(1 << PH3);
@@ -84,13 +90,10 @@ int16_t motor_encoder_read(void){
 	uint8_t low = PINK;
 
 	//Set !OE high to disable output of encoder
-	PORTH |= (1 << PH5);
+	//PORTH |= (1 << PH5);
 	
-	int16_t encoder_value = (int16_t) ( (high << 8) | low);
+	uint16_t encoder_value =  (high << 8) | low;
 	
 	return encoder_value;
 }
 
-motor_encoder_test(void){
-	printf("Encoder: %d\n", motor_encoder_read());
-}
