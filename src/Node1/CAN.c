@@ -10,7 +10,11 @@ void can_init(uint8_t mode){
 	
 	GICR |= (1 << INT0); // interupt PIN 12
 	
-	MCUCR |= (1<<ISC00)|(1<<ISC01); //rising edge
+	//MCUCR |= (1<<ISC00)|(1<<ISC01); //rising edge
+	
+	EMCUCR |= 1<<ISC11 | 1<<ISC01;			// Both trigger inputs at falling edge
+	EMCUCR &= ~(1<<ISC10);
+	EMCUCR &= ~(1<<ISC00);
 	
 	//GIFR &= ~(1 << INTF0);
 

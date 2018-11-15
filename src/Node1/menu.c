@@ -106,6 +106,7 @@ void MENU_end_game(){
 	OledClearDisplay();
 	OledGoto(3,15);
 	OledPrintString("Game Over");	
+	_delay_ms(1000);
 }
 
 

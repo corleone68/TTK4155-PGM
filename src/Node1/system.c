@@ -39,7 +39,6 @@ void system_loop() {
 	if ((gamemode == 2) && (read_left_Button()==0)) { // Checks switch sw1 on malfunctionboard
 		gamemode = 0;
 		MENU_end_game();
-		_delay_ms(1000);
 		MENU_init();
 		score_counter = 0;
 	}
@@ -95,6 +94,7 @@ void system_loop() {
 	
 	if (can_receive(&receive)){
 		cal_flag = receive.data[0];
+		printf("cal flag: %d \n", receive.data[0]);
 		IR_flag = receive.data[1];
 	}
 	
