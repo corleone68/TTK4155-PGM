@@ -1,30 +1,26 @@
 #include <avr/io.h>
 #include "UART.h"
-#include <util/setbaud.h>
 #include <stdio.h>
 
-void initUSART(void)
+void initUART(void)
 {
-/* Set baud rate */
- 
-    UBRR0H=0x00;
-	UBRR0L=0x1F; // To set the Buad rate to 9600.. get value through above formulaF
-	UCSR0B=(1<<RXCIE0) | (1<<RXEN0) | (1<<TXEN0);
-	UCSR0C=(1<<URSEL0) | (1<<UCSZ01) | (1<<UCSZ00) ;
-	fdevopen(transmitByte, receiveByte);
 
+	UBRR0H = (unsigned char)(baud>>8); // Set baud rate
+	UBRR0L = (unsigned char)baud;
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0); // Enabling receiver and transmitter
+	UCSR0C = (1<<URSEL0) | (1<<UCSZ01) | (1<<UCSZ00) ; // set frame format
 }
 
 
 void transmitByte(uint8_t data)
 {
-   loop_until_bit_is_set(UCSR0A,UDRE0) ;
+   loop_until_bit_is_set(UCSR0A,UDRE0) ; // wait for empty transmit buffer
    UDR0 = data;
 }
 
 uint8_t receiveByte(void)
 {
-    loop_until_bit_is_set(UCSR0A,RXC0);
+    loop_until_bit_is_set(UCSR0A,RXC0); // putting data into buffer and sending data
     return UDR0;
 }
 

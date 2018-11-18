@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "system.h"
-#include "SliderJoystick.h"
+#include "joystick1.h"
 #include "Adc.h"
 #include "menu.h"
 #include "CAN.h"
@@ -13,7 +13,7 @@
 //***************************************************************
 //	System logic variables init									*
 //***************************************************************
-struct JoystickOutput Joy;
+struct joystickOutput Joy;
 
 can_message send = {.id = 1, .length = 8, .data[0] = -100};
 can_message receive;
@@ -52,15 +52,15 @@ void system_loop() {
 
 
 	// Joystick position update
-	JoystickRead(&Joy);
-	
+	readJoystick(&Joy);
+
 
 	switch (gamemode) {
 		case 0: // Gamemode: Menu
-			MENU_navigate(Joy.JoystickDigitalOut, &gamemode, &settings, &score_top, score_counter);
-			
+			MENU_navigate(Joy.joyDirection, &gamemode, &settings, &score_top, score_counter);
+
 		break;
-		
+
 		case 1: // Gamemode: Calibration
 			//settings_guncalibration();
 		break;
@@ -70,12 +70,12 @@ void system_loop() {
 
 		break;
 	}
-	
+
 	// Update of CAN values for node 2
-	send.data[0] = Joy.JoyAnalogOut.X_axis;
-	send.data[1] = Joy.JoyAnalogOut.Y_axis;
-	send.data[2] = SliderRead(LEFT);
-	send.data[3] = SliderRead(RIGHT);
+	send.data[0] = Joy.joyPos.x;
+	send.data[1] = Joy.joyPos.y;
+	send.data[2] = readSlider(LEFT);
+	send.data[3] = readSlider(RIGHT);
 	send.data[4] = read_left_Button();
 	send.data[5] = read_right_Button();
 	send.data[6] = gamemode;
@@ -91,20 +91,20 @@ void system_loop() {
 	printf("game mode %d \n", send.data[6]);
 	printf("score %d \n", score_counter);
 	printf(" \n");
-	
-	if (can_receive(&receive)){
+
+	if (can_data_receive(&receive)){
 		cal_flag = receive.data[0];
 		printf("cal flag: %d \n", receive.data[0]);
 		IR_flag = receive.data[1];
 	}
-	
+
 	printf("cal flag: %d \n", cal_flag);
 	printf("IR_flag: %d \n", IR_flag);
-	
-	
+
+
 	//_delay_ms(100);
-	
-	
+
+
 }
 
 // Interrupt based score timer
@@ -117,9 +117,3 @@ ISR(TIMER1_OVF_vect) {
 		}
 	}
 }
-
-
-
-
-
-

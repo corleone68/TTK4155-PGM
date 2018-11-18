@@ -17,7 +17,7 @@ typedef struct can_message{
 static volatile uint8_t CAN_int_flag = 0;
 void can_init(uint8_t mode);
 void can_message_send(can_message* msg);
-uint8_t can_receive(can_message* msg);
+uint8_t can_data_receive(can_message* msg);
 ISR(INT0_vect);
 
 

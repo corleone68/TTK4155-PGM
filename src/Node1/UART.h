@@ -19,7 +19,7 @@
 
 #include <avr/io.h>
 
-void initUSART(void);
+void initUART(void);
 void transmitByte(uint8_t data);
 uint8_t receiveByte(void);
 void printString(const char myString[]);

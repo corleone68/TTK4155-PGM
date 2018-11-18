@@ -15,12 +15,12 @@
 #include "Adc.h"
 #include "SRAMtest.c"
 #include "SRAMtest.h"
-#include "USART.h"
+#include "UART.h"
 #include "ExtMem.h"
 #include "Oled.h"
 #include "Char.h"
 #include "menu.h"
-#include "SliderJoystick.h"
+#include "joystick1.h"
 #include "CAN.c"
 #include "CAN.h"
 #include "SPI.c"
@@ -37,48 +37,47 @@
 
 int main()
 {
-	
-	USART_Init(MY_UBRR);
-	fdevopen(&USART_Transmit, 0);
+
+	initUART(MY_UBRR);
 	ExtMemInit();
 	scoretimer_init();
-	
+
 	sei();
-	
+
 	//DDRE &= ~(1 << PE0);
-	
-	JoystickCalibrate();
-	
-	
+
+	calibrateJoystick();
+
+
 	//struct JoystickOutput Joy;
-	
-	
+
+
 	OledInit();
 	OledClearDisplay();
 	OledHome();
 	MENU_init();
-	
-	
+
+
 	initSPI();
-		
+
 	can_init(MODE_NORMAL);
 	//Can_message send = {.id = 5, .length = 1, .data[0] = 95};
 	//Can_message receive;
-	
-	
+
+
 	while (1)
 	{
-		
-		
+
+
 		system_loop();
-	
-		
+
+
 	}
-	
-		
-
-	
 
 
-	 
+
+
+
+
+
 }

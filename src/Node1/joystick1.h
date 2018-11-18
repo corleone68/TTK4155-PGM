@@ -1,7 +1,7 @@
 /*
  * Joystick.h
 
- */ 
+ */
 
 
 
@@ -37,6 +37,7 @@ void readJoystick(struct joystickOutput *Out);
 void calibrateJoystick(void);
 
 uint8_t readSlider(uint8_t direction);
-
+uint8_t read_left_Button(void);
+uint8_t read_right_Button(void);
 
 #endif /* JOYSTICK_H_ */

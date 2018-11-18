@@ -4,7 +4,7 @@
 #include "menu.h"
 #include "oled.h"
 #include "system.h"
-#include "SliderJoystick.h"
+#include "joystick1.h"
 
 //Joy.JoystickDigitalOut
 
@@ -85,7 +85,7 @@ menu_item_info_t free_game = {
 	.menu_flag = 7,
 };
 
-menu_item_info_t clear_highscores = {  
+menu_item_info_t clear_highscores = {
 	.name = "Clear Highscores",
 	.parent = &settings,
 	.child[0] = NULL,
@@ -105,7 +105,7 @@ menu_item_info_t calibrate = {
 void MENU_end_game(){
 	OledClearDisplay();
 	OledGoto(3,15);
-	OledPrintString("Game Over");	
+	OledPrintString("Game Over");
 	_delay_ms(1000);
 }
 
@@ -156,17 +156,17 @@ void MENU_init( void ){
 
 
 void MENU_print_menu(){
-	
+
 	OledClearDisplay();
 	OledPrintString(current_menu->name);
 	if (current_child!= NULL){
 		//MENU_highlight_item();
 	}
 	for (int i = 0; i < current_menu->child_num; i++){
-		
+
 		OledGoto(i+1, 10);
 		OledPrintString(current_menu->child[i]->name);
-		
+
 	}
 }
 
@@ -188,7 +188,7 @@ void MENU_navigate(uint8_t dir, uint8_t *game_mode, uint8_t *sett, uint16_t *sco
 
 
 	switch (dir){
-		
+
 		case 4:
 		//printf("LEFT \n");
 		_delay_ms(200);
@@ -197,48 +197,48 @@ void MENU_navigate(uint8_t dir, uint8_t *game_mode, uint8_t *sett, uint16_t *sco
 			current_menu = current_menu->parent;
 			current_child = current_menu->child[0];
 			menu_flag = current_menu->menu_flag;
-			
-			
+
+
 			MENU_print_menu();
 			MENU_highlight_item();
-			
+
 			*game_mode = 0;
 			//printf("current child: %d \n", child_flag);
 		}
 		break;
-		
+
 		case 2:
 		//printf("UP \n");
 		_delay_ms(200);
-		
+
 		if (line > 1){
 			line = line - 1;
 			current_child = current_menu->child[line - 1];
-				
+
 			MENU_highlight_item();
-			
+
 			*game_mode = 0;
 			//printf("current child: %d \n", child_flag);
 		}
 		break;
-		
+
 		case 1:
 		//printf("DOWN \n");
 		_delay_ms(200);
-		
+
 		if (line < current_menu->child_num){
 			line = line + 1;
-			current_child = current_menu->child[line -1]; 
+			current_child = current_menu->child[line -1];
 			MENU_highlight_item();
-			
+
 			*game_mode = 0;
 			//printf("current child: %d \n", child_flag);
 		}
 		break;
-		
+
 		case 3:
 		//printf("RIGHT \n");
-		
+
 		if (current_child!= NULL){
 			_delay_ms(200);
 			current_menu = current_child;
@@ -248,35 +248,35 @@ void MENU_navigate(uint8_t dir, uint8_t *game_mode, uint8_t *sett, uint16_t *sco
 			MENU_print_menu();
 			MENU_highlight_item();
 			*game_mode = 0;
-		
+
 			switch (menu_flag){
-				case 5: 
+				case 5:
 					MENU_game(score);
 					*game_mode = 2;
 					*sett = 1;
 					//printf("play beginner \n");
 				break;
-				
+
 				case 6:
 					MENU_game(score);
 					*game_mode = 2;
 					*sett = 2;
 					//printf("play hard \n");
 				break;
-				
+
 				case 7:
 					MENU_game(score);
 					*game_mode = 2;
 					*sett = 3;
 					//printf("play free \n");
 				break;
-				
+
 				case 3:
 					*game_mode = 0;
 					*sett = 0;
 					//printf("zobraz highscore \n");
 				break;
-				
+
 				case 9:
 					*game_mode = 1;
 					*sett = 0;
@@ -284,20 +284,20 @@ void MENU_navigate(uint8_t dir, uint8_t *game_mode, uint8_t *sett, uint16_t *sco
 					*game_mode = 0; // zmanit na podmienku calibrate flagu
 					MENU_init();
 				break;
-				
+
 				case 8:
 					*game_mode = 0;
 					*sett = 0;
 					*score_top = 0;
 					//printf("clear highscore \n");
 				break;
-				
+
 			}
-		
+
 		break;
-		
+
 		default:
-		
+
 		break;
 		}
 	}
@@ -306,14 +306,14 @@ void MENU_navigate(uint8_t dir, uint8_t *game_mode, uint8_t *sett, uint16_t *sco
 void MENU_highlight_item( void )
 
 {
-	
+
 	for (int i = 1; i < current_menu->child_num + 1; i++){
 		OledGoto(i, 0);
 		OledPrintString("  ");
 	}
-	
-	
+
+
 	OledGoto(line,0);
 	Oledprintarrow();
-		
+
 }
