@@ -25,7 +25,8 @@ void solenoid_trigger(int button_pressed, int device_fired){
 
 
 
-//	Solenoid Automatic											*
+//	Solenoid Automatic
+
 void solenoid_toggle(int button_pressed, int device_fired){
 	if (button_pushed == 1 || gun_fired == 0){
 		PORTL &=~(1 << PL0);
