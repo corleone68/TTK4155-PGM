@@ -3,7 +3,7 @@
 
 
 
-void init_motor(){
+void initMotor(){
 	
 	DDRH |= (1 << PH4); // Enable motor
 	
