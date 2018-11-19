@@ -1,5 +1,5 @@
 #pragma once
 
-void solenoid_init();
-void solenoid_trigger(int,int);
-void solenoid_toggle(int,int);
+void init_solenoid();
+void trigger_solenoid(int,int);
+void switch_solenoid(int,int);
