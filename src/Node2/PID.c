@@ -2,7 +2,7 @@
 #include "PID.h"
 #include "motor.h"
 
-#define F_CPU 16000000
+#define F_CPU 16000000UL
 #include <util/delay.h>
 
 
@@ -10,7 +10,7 @@ ISR(TIMER2_OVF_vect){
 	timer_flag = 1;
 }
 
-void PID_init(void){
+void initializePID(void){
 
 	cli(); // Disable global interrupts
 
@@ -21,79 +21,114 @@ void PID_init(void){
 	sei(); // Enable global interrupts
 }
 
-void PID_calibrate(void){
-	motor_set_dir(LEFT);
-	motor_set_speed_PID(50);
-	int16_t cur_pos = motor_encoder_read();
-	int16_t prev_pos = cur_pos+200;
+void calibratePosition(void){
+	setDirection(LEFT);
+	PIDcontroller(50);
+	int16_t current_pos = readEncoder();//reads current position
+	int16_t previous_pos = current_pos+200; //initialize previous position
 	
-	//find left border
 	
-	while(prev_pos != cur_pos){
-		prev_pos = cur_pos;
+	
+	while(previous_pos != current_pos){
+		previous_pos = current_pos;
 		_delay_ms(40);
-		cur_pos = motor_encoder_read();
+		current_pos = readEncoder();
 	}
 	
-	motor_set_speed(0);
+	setSpeed(0);//stop the motor
 	_delay_us(500);
-	motor_reset_encoder();
+	resetEncoder();
 
-	motor_set_dir(RIGHT);
-	motor_set_speed_PID(50);
-	cur_pos = 0;
-	prev_pos = cur_pos-200;
+	setDirection(RIGHT);
+	PIDcontroller(40);
+	current_pos = 0;
+	previous_pos = current_pos-200;
 
-	//find right border
 	
-	while(prev_pos != cur_pos){
-		prev_pos = cur_pos;
-		_delay_ms(40);
-		cur_pos = motor_encoder_read();
+	while(previous_pos != current_pos){
+		previous_pos = current_pos;
+		_delay_ms(50);
+		current_pos = readEncoder();
 	}
-	motor_set_speed(0);
-	pos_max = cur_pos;
+	setSpeed(0);
+	position_max = current_pos;
 	
 }
-void PID(uint8_t pos_ref){
-	if (timer_flag){
+void PID(uint8_t ref){
+
+        int16_t output = 0;
+		uint8_t out_abs = 0;
+	   if (timer_flag){
 		TIMSK2 &= ~(1 << TOIE2); //disable interrupt while handling PID 
 		
-		int16_t motor_pos = motor_encoder_read();
-		double measured = (double)((motor_pos)/(double)(pos_max))*255; //Scale to 0-255 based on calibrated values
+		int16_t measurement  = readEncoder();
+		double  position = map((double) measurement,0.0, pos_max,0.0,255.0);
 
-		//Saturation of position
+
+		/*//Saturation of position
 		if(pos_ref >240){
 			pos_ref = 240;
 		} else if(pos_ref<10){
 			pos_ref = 10;
-		}
+		}*/
 		
-		int16_t error = pos_ref - (int)measured;
-		integral = integral + error * dt;
+		int16_t error = ref - (int)position;
+		integral = integral + (error * SampleTime);
 
-		//if abs(error) < 1
-		if (error < 1 && error > -1){
-			integral = 0;
-		}
+	    if(abs(integral) < outMin){
+             integral = outMin;
+        } 
+        else if(abs(integral) > outMax){
+            if(integral > 0)
+                integral = outMax;
+            else
+                integral = -outMax;
+        }
 	
-		double derivative = (error - prev_error)/dt;
-		int16_t speed = 0;
-		uint8_t speed_abs = 0;
-		speed = error*Kp + integral*Ki + derivative*Kd;
-		prev_error = error;
+		double derivative = (error - last_error)/SampleTime;
+		
+		int16_t u = Kp*error + Ki*integral + Kd*derivative;
+		last_error = error;
+        
+        
+          if (abs(u) > outMax)
+          { 
 
-		if (speed < 0){
-			motor_set_dir(LEFT);
-			speed_abs = -speed;
+            if( u > 0)
+                output = outMax;
+            else
+                output = -outMax;
+         
+          }
+          else if( abs(u) <= outMin)
+          {
+            if( u > 0)
+                output = outMin;
+            else
+                output = -outMin;
+            
+          }
+          else
+          {
+            output = u;
+          }
+		if (output < 0){
+			setDirection(LEFT);
+			out_abs = -speed;
 		}
 		else{
-			motor_set_dir(RIGHT);
-			speed_abs = speed;
+			setDirection(RIGHT);
+			out_abs = speed;
 		}
 
-		motor_set_speed_PID(speed_abs);
+		PIDcontroller(out_abs);
 		timer_flag = 0;
 		TIMSK2 |= (1 << TOIE2); //Enable timer interrupt again 
 	}
 }
+
+double map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
