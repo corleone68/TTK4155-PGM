@@ -1,37 +1,19 @@
-
-#ifndef MCP2515_H_
-#define MCP2515_H_
-
+#ifndef __MCP2515_H
+#define __MCP2515_H
 #include <avr/io.h>
-#include <avr/interrupt.h>
-
-#define F_CPU 16000000
-#include <util/delay.h>
-
 #include "SPI.h"
-
-uint8_t mcp2515_read(uint8_t address);
-void mcp2515_write(uint8_t address, uint8_t cData);
-void mcp2515_set_mode(uint8_t mode);
-void mcp2515_request_to_send(uint8_t buffer); // use 0x81 MCP_RTS_TX0
-void mcp2515_bit_modify(uint8_t regist, uint8_t mask, uint8_t cData);
-void mcp2515_reset();
-uint8_t mcp2515_read_status();
-uint8_t mcp2515_init(uint8_t mode);
-
 /*
 mcp2515.h
-
 This file contains constants that are specific to the MCP2515.
-
 Version     Date        Description
 ----------------------------------------------------------------------
 v1.00       2003/12/11  Initial release
-
 Copyright 2003 Kimberly Otten Software Consulting
 */
 
 // Define MCP2515 register addresses
+
+
 
 #define MCP_RXF0SIDH	0x00
 #define MCP_RXF0SIDL	0x01
@@ -76,17 +58,9 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_CANINTF		0x2C
 #define MCP_EFLG		0x2D
 #define MCP_TXB0CTRL	0x30
-#define MCP_TXB0SIDH	0x31
-#define MCP_TXB0SIDL	0x32
-#define MCP_TXB0DLC		0x35
-#define MCP_TXB0D0		0x36
 #define MCP_TXB1CTRL	0x40
 #define MCP_TXB2CTRL	0x50
-#define MCP_RXB0CTRL	0x60
-#define MCP_RXB0SIDH	0x61
-#define MCP_RXB0SIDL	0x62
-#define MCP_RXB0DLC		0x65
-#define MCP_RXB0D0		0x66
+
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
 
@@ -179,6 +153,30 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_WAKIF		0x40
 #define MCP_MERRF		0x80
 
+//CAN control
+#define MCP_TXB0CTRL 0x30
+#define MCP_TXB0SIDH 0x31
+#define MCP_TXB0SIDL 0x32
+#define MCP_TXB0DLC  0x35
+#define MCP_TXB0D0   0x36
+#define TXREQ 3
+#define TXERR 4
+#define MLOA  5
+#define MCP_RXB0CTRL	0x60
+#define MCP_RXB0SIDH	0x61
+#define MCP_RXB0SIDL    0x62
+#define MCP_RXB0DLC     0x65
+#define MCP_RXB0D0      0x66
+#define MCP_NOFILTER    0X60
+#define RX0IE           0x01
+
+void mcp2515_init(int mode);
+uint8_t mcp2515_read(uint8_t address);
+void mcp2515_reset(void);
+void mcp2515_write(uint8_t address, uint8_t data);
+void mcp2515_request_to_send(uint8_t mcp_rts_TXn);
+void mcp2515_bit_modify(uint8_t address, uint8_t mask, uint8_t data);
+uint8_t mcp2515_read_status(void);
 
 
-#endif /* MCP2515_H_ */
+#endif
