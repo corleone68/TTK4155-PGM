@@ -1,23 +1,22 @@
-
 #ifndef CAN_H_
 #define CAN_H_
 
 #include "MCP2515.h"
-//#include "USART.h"
+#include "SPI.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 
-typedef struct CAN_message{
+typedef struct can_message{
 	unsigned int id;
 	uint8_t length;
 	uint8_t data[8];
-}CAN_message;
+}can_message;
 
 static volatile uint8_t CAN_int_flag = 0;
-void CAN_init(uint8_t mode);
-void CAN_message_send(CAN_message* msg);
-uint8_t CAN_receive(CAN_message* msg);
+void can_init(uint8_t mode);
+void can_message_send(can_message* msg);
+uint8_t can_data_receive(can_message* msg);
 ISR(INT2_vect);
 
 
