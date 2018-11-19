@@ -2,9 +2,9 @@
 #include <util/delay.h>
 #include "solenoid.h"
 
-//	Initilization of solenoid									*
+//	Initilization of solenoid
 
-void solenoid_init(){
+void init_solenoid(){
 	
 	// Set solenoid as output
 	DDRL	|= (1 << DDL0);		
@@ -13,10 +13,10 @@ void solenoid_init(){
 
 
 
-//	Solenoid Single-shot										*
+//	Solenoid Single-shot									
 
-void solenoid_trigger(int button_pressed, int device_fired){
-	if (button_pushed == 1 || gun_fired == 0) {
+void trigger_solenoid(int button_pressed, int device_fired){
+	if (button_pressed == 1 || device_fired == 0) {
 		PORTL &=~(1 << PL0);
 	} else {
 		PORTL |= (1 << PL0);
@@ -27,8 +27,8 @@ void solenoid_trigger(int button_pressed, int device_fired){
 
 //	Solenoid Automatic
 
-void solenoid_toggle(int button_pressed, int device_fired){
-	if (button_pushed == 1 || gun_fired == 0){
+void switch_solenoid(int button_pressed, int device_fired){
+	if (button_pressed == 1 || device_fired == 0){
 		PORTL &=~(1 << PL0);
 		_delay_ms(40);
 		PORTL |= (1 << PL0);
