@@ -26,7 +26,7 @@ void init_motor(){
 }
 
 
-void motor_set_dir(motor_direction_t direction){
+void setDirection(motor_direction_t direction){
 	switch (direction){
 		case(LEFT): 
 			PORTH &= ~(1 << PH1);
@@ -37,7 +37,7 @@ void motor_set_dir(motor_direction_t direction){
 	}
 }
 
-void motor_set_speed(int8_t speed){
+void setSpeed(int8_t speed){
 	if(speed > 0){ //Limits speed based on direction
 		motor_set_dir(RIGHT);
 		DAC_write(speed);
@@ -48,17 +48,17 @@ void motor_set_speed(int8_t speed){
 	}
 }
 
-void motor_set_speed_PID(uint8_t speed){
+void PIDcontroller(uint8_t speed){
 		DAC_write(speed);
 }
 
-void motor_reset_encoder() { 
+void resetEncoder() { 
 	PORTH &= ~(1 << PH6); // Set active low reset
 	_delay_us(200);
 	PORTH |= (1 << PH6); // Finish reset
 }
 
-uint16_t motor_encoder_read(void){
+uint16_t readEncoder(void){
 
 	PORTH &= ~(1 << PH3); //Set SEL low to get high byte
 	_delay_us(20);
