@@ -7,24 +7,24 @@
 
 #include "motor.h"
 #include "PID.h"
+#define SampleTime 0.016
 
-//Tuned PID gains
 #define Kp 1
 #define Ki 10
 #define Kd 0.01
 
-#define dt 0.016
-
-static int16_t pos_max;
-static int16_t pos_min = 0;
-static double integral = 0;
-static int16_t prev_error = 0;
 
 static volatile uint8_t timer_flag = 0;
+static double integral = 0;
+static int16_t prev_error = 0;
+static int16_t position_max;
 
-void PID_init(void);
-void PID(uint8_t pos_ref);
-void PID_calibrate(void);
+
+
+
+void initializePID(void);
+void PID(uint8_t ref);
+void calibratePosition(void);
 ISR(TIMER2_OVF_vect);
 
-#endif /* PID_H_ */
+#endif 
