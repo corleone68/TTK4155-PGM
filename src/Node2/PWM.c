@@ -2,43 +2,31 @@
 #include <avr/interrupt.h>
 #include "PWM.h"
 
-
-//***************************************************************
-//	Initilization of servo motor								*
-//***************************************************************
-void servo_init(void){
+void initializeServo(void){
 	
-	// Set data direction to output
-	DDRB |= (1<<PB6);
-	
-	// Set top value for Fast-PWM counter
-	ICR1 = 40000;
-	
-	// Set trigger value for Fast-PWM counter
-	OCR1B = 3000;
-	
-	// Set timer for Fast-PWM
-	TCCR1A = (1<<COM1B1)|(1<<WGM11)|(1<<COM3B1);
+	TCCR1A = (1<<COM1B1)|(1<<WGM11)|(1<<COM3B1); //set Fast-PWM
 	TCCR1B = (1<<WGM12)|(1<<WGM13)|(1<<CS11);
-}
-
-
-//***************************************************************
-//	Set servo angle 											*
-//***************************************************************
-void servo_set_angle(int pos) {
+	DDRB |= (1<<PB6); // set as output
+	ICR1 = 40000; //top value
+	OCR1B = 3000; //trigger value
 	
-	// Set offset such that 0 is middle position
-	int16_t servo_angle = (((-pos+100)*12)+1800);
 	
-	// To ensure dead-zone around mid point (To make servo quiet when idle!)
-	if (servo_angle <= 1800) {
-		OCR1B = 1800;
-		} else if (servo_angle >= 4200) {
+
+void setAngle(int pos) {
+	
+
+	int16_t angle = (((-pos+100)*12)+1800);
+	
+	if (angle >= 4200) {
 		OCR1B = 4200;
-		} else if ((servo_angle >= 2850) && (servo_angle <= 3400)) {
+		} 
+	else if (angle >= 1800) {
+		OCR1B = 1800;
+		} 
+	else if ((angle >= 2850) && (angle <= 3400)) {
 		OCR1B = 3000;
-		} else {
-		OCR1B = servo_angle;
+		} 
+	else {
+		OCR1B = angle;
 	}
 }
