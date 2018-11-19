@@ -26,7 +26,7 @@ void initMotor(){
 }
 
 
-void setDirection(motor_direction_t direction){
+void setDirection(dir direction){
 	switch (direction){
 		case(LEFT): 
 			PORTH &= ~(1 << PH1);
