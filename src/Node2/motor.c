@@ -39,11 +39,11 @@ void setDirection(motor_direction_t direction){
 
 void setSpeed(int8_t speed){
 	if(speed > 0){ //Limits speed based on direction
-		motor_set_dir(RIGHT);
+		setDirection(RIGHT);
 		DAC_write(speed);
 		
 	} else{
-		motor_set_dir(LEFT);
+		setDirection(LEFT);
 		DAC_write(-speed);
 	}
 }
