@@ -13,11 +13,8 @@ ISR(TIMER2_OVF_vect){
 void initializePID(void){
 
 	cli(); // Disable global interrupts
-
-	TIMSK2=(1<<TOIE2); // enable timer overflow interrupt for Timer2
-	
 	TCCR2B = (1<<CS20) | (1<<CS21) | (1<<CS22); // start timer2 with /1024 prescaler
-	
+	TIMSK2=(1<<TOIE2); // enable timer overflow interrupt for Timer2
 	sei(); // Enable global interrupts
 }
 
