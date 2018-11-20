@@ -13,8 +13,6 @@
 
 
 #include "Adc.h"
-#include "SRAMtest.c"
-#include "SRAMtest.h"
 #include "UART.h"
 #include "ExtMem.h"
 #include "Oled.h"
