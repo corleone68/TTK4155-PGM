@@ -32,7 +32,9 @@ void can_message_send(can_message* msg){
 
 uint8_t can_data_receive(can_message* msg){
 	if (CAN_int_flag){
-		msg->id = (mcp2515_read(MCP_RXB0SIDH) << 3| mcp2515_read(MCP_RXB0SIDL) >> 5); // Combine to complete message ID
+		uint8_t id_l = mcp2515_read(MCP_RXB0SIDL);
+		uint8_t id_h =  mcp2515_read(MCP_RXB0SIDH);
+		msg->id = (id_h<< 3| id_l >> 5); // Combine to complete message ID
 
 		uint8_t length = mcp2515_read(MCP_RXB0DLC); // Read message data length
 		msg->length = length;
