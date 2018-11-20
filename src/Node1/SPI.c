@@ -2,7 +2,7 @@
 
 
 #include "SPI.h"
-#include "USART.h"
+#include "UART.h"
 #include <avr/io.h>
 
 void initSPI(void){
