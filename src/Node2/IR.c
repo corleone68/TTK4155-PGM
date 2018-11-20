@@ -10,11 +10,11 @@ uint8_t ir_get(void){
 	
 	// Check if value is below threshold
 	#if FILTER_ORDER == 1
-	return adc_read(0) < filter_limit;
+	return analogRead(0) < filter_limit;
 	#else
 	static uint16_t filter[FILT_ORD-1];
 
-	uint16_t ir_val = adc_read(0);
+	uint16_t ir_val = analogRead(0);
 	uint16_t avg = ir_val;
 
 	// Use average value with higher order filter
